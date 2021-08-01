@@ -186,7 +186,7 @@ a:active {
   overflow: hidden;
 }
 
-.card-work .card-image {
+.card-work .card-image img {
   height: 30rem;
   width: 100%;
   object-fit: cover;
@@ -224,6 +224,7 @@ a:active {
   top: 0;
   right: 0;
   left: 0;
+  bottom: 0;
   content: '';
 }
 
