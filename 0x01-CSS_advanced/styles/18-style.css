@@ -157,12 +157,11 @@ a:active {
 
 .nav .nav-link {
   display: block;
-
+  padding: 0.5rem 1rem;
 }
 
 .nav .nav-link:hover {
   color: var(--nav-item-link-hover);
-  padding: 50% 0 50% 0;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
