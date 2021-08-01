@@ -46,9 +46,21 @@ h6 {
   font-weight: var(--font-weight-bold);
 }
 
-a {
+a:link {
   color: #161616;
   text-decoration: none;
+}
+
+a:visited {
+  font-style: italic;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  color: var(--color-light-grey);
 }
 
 .visually-hidden {
