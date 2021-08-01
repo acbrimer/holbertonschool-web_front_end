@@ -1,9 +1,18 @@
+:root {
+  --color-primary: #d73953;
+  --color-black: #090909;
+  --color-white: #ffffff;
+  --color-light-grey: #f3f3f3;
+  --color-dark-grey: #353535;
+  --text-color: var(var(--color-black));
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  color: #161616;
+  color: var(--text-color);
 }
 
 a {
@@ -15,18 +24,9 @@ a {
 }
 
 .card-category {
-  color: #d73953;
+  color: var(--color-primary);
 }
 
 .section-tagline {
-  color: #d73953;
-}
-
-:root {
-  --color-primary: #d73953;
-  --color-black: #090909;
-  --color-white: #ffffff;
-  --color-light-grey: #f3f3f3;
-  --color-dark-grey: #353535;
-  --text-color: var(var(--color-black));
+  color: var(--color-primary);
 }
