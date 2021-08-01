@@ -208,14 +208,14 @@ a:active {
   transform: scale(0.95);
 }
 
-.card-work .card-image img {
+.card-work .card-image {
   height: 30rem;
   width: 100%;
   object-fit: cover;
   vertical-align: bottom;
 }
 
-.card-work:hover .card-image img {
+.card-work:hover .card-image {
   transform: scale(1.2);
   transition: all var(--transition-duration) var(--transition-cubic-bezier);
 }
