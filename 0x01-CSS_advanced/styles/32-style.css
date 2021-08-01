@@ -126,8 +126,8 @@ a:active {
   color: var(--button-hover-color);
   text-decoration: var(--button-hover-text-decoration);
   background: var(--button-hover-background);
-  transition: color var(--transition-duration),
-    background-color var(--transition-duration);
+  transition-duration: var(--transition-duration);
+  transition-property: color, background-color;
 }
 
 .visually-hidden {
@@ -350,7 +350,7 @@ a:active {
   background-color: var(--color-white);
   width: 0;
   height: 0.2rem;
-  transition: all var(--transition-duration) var(--transition-cubic-bezier);
+  transition: var(--transition-duration) var(--transition-cubic-bezier);
 }
 
 .nav .nav-item:hover .nav-link::before {
