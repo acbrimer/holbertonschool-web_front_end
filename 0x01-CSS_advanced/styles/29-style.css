@@ -275,6 +275,7 @@ a:active {
 
 .nav .nav-item:hover .nav-link::before {
   width: 100%;
+  background-color: var(--color-primary);
 }
 
 ul.row {
