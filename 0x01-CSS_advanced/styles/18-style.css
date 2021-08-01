@@ -150,9 +150,19 @@ a:active {
   font-family: var(--nav-item-font-family);
   font-weight: var(--nav-item-font-weight);
   font-size: var(--nav-item-font-size);
-  letter-spacing: var(--nav-item-font-letter-spacing);
+  letter-spacing: var(--nav-item-letter-spacing);
   display: var(--nav-item-display);
   margin: var(--nav-item-margin)
+}
+
+.nav .nav-link {
+  display: block;
+
+}
+
+.nav .nav-link:hover {
+  color: var(--nav-item-link-hover);
+  padding: 0.5em 0;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
