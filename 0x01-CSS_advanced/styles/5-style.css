@@ -16,13 +16,13 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 0.625em;
+  font-size: 0.625rem;
 }
 
 body {
   color: var(--text-color);
   font-family: var(--font-family-base);
-  font-size: var(font-size-medium);
+  font-size: var(--font-size-medium);
 }
 
 h1,
