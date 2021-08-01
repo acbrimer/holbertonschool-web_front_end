@@ -94,6 +94,7 @@ a:active {
 }
 
 .section-header {
+  padding: var(--section-header-padding);
   text-align: var(--section-header-align);
 }
 
@@ -479,6 +480,6 @@ template {
   display: none;
 }
 
-footer {
+.footer {
   padding: var(--footer-padding);
 }
