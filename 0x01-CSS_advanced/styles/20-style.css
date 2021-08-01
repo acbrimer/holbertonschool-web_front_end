@@ -175,9 +175,9 @@ ul.row {
 }
 
 .row::after {
-  content: none;
+  content: "";
   display: table;
-  width: 100%;
+  clear: both;
 }
 
 .col-1-3 {
