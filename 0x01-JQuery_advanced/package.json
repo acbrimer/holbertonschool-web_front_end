@@ -1,0 +1,12 @@
+{
+  "name": "0x01-JQuery_advanced",
+  "version": "1.0.0",
+  "author": "Adam Brimer",
+  "license": "MIT",
+  "scripts": {
+    "run": "node_modules/.bin/json-server --watch db.json"
+  },
+  "dependencies": {
+    "json-server": "^0.16.3"
+  }
+}
