@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            const SERVER_ROOT = "http://localhost:3000"
+            window.onload = () => {
+                listPosts();
+                buildForm();
+            };
+
+            function addPostRow(data) {
+                const { id, title, author } = data;
+                $('body').append($('<p>').append(
+                    $('<span>').text(`Post created with id ${id}, title: ${title}, author: ${author}`)
+                ));
+            }
+
+            function listPosts() {
+                $.get({
+                    url: SERVER_ROOT + '/posts',
+                    dataType: "json",
+                    success: function (res) {
+                        res.forEach(post => addPostRow(post))
+                    },
+                    error: () => window.alert("Server Error")
+                });
+            }
+
+            function buildForm() {
+                $('body').append(
+                    $('<form>').append(
+                        $('<div>').append(
+                            $('<label for="author">').text("Author"),
+                            $('<input type="text" id="author" name="0">'),
+                        ),
+                        $('<div>').append(
+                            $('<label for="title">').text("Title"),
+                            $('<textarea id="title" name="1">')
+                        ),
+                        $('<input type="submit">')
+                    ).submit(sendForm)
+                );
+            }
+
+            function sendForm(e) {
+                e.preventDefault();
+                const loadMessage = $('<p>').text('About to send the query to the API');
+                $('form').first().after(loadMessage);
+                const vals = $('form').first().serializeArray();
+                console.log(vals)
+                // transform array of values into object of {title, author}
+                const data = {
+                    author: vals[0].value,
+                    title: vals[1].value
+                };
+                $.post({
+                    url: SERVER_ROOT + '/posts',
+                    data: data,
+                    dataType: "json",
+                    success: function (res) {
+                        addPostRow(res);
+                    },
+                    error: () => window.alert("Error Sending POST Query")
+                });
+                loadMessage.remove();
+            }
+
+        </script>
+        <meta charset="utf-8" />
+        <title>Task 11</title>
+
+    </head>
+
+    <body>
+
+    </body>
+
+
+</html>
