@@ -1,4 +1,4 @@
-// 10-prime
+// 11-prime
 
 function countPrimeNumbers() {
   const isPrime = (n) => {
@@ -12,12 +12,14 @@ function countPrimeNumbers() {
 }
 
 let startTime = performance.now();
-const countPrimePromises = [...Array(100).keys()].map(
-  () => new Promise((resolve) => resolve(countPrimeNumbers()))
-);
-Promise.all(countPrimePromises).then((values) => {
-  console.log(values);
-});
+window.setTimeout(() => {
+  const countPrimePromises = [...Array(100).keys()].map(
+    () => new Promise((resolve) => resolve(countPrimeNumbers()))
+  );
+  Promise.all(countPrimePromises).then((values) => {
+    console.log(values);
+  });
+}, 0);
 let endTime = performance.now();
 console.log(
   `Execution time of printing countPrimeNumbers was ${
