@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            window.onload = () => {
+                createSearchForm();
+            };
+
+            function createSearchForm() {
+                $('body').append(
+                    $('<input type="text">'),
+                    $('<input type="submit">')
+                        .click(() => queryWikipedia($('input').first().val())),
+                    $('<ul>'));
+            }
+
+            function addNewArticle(id, title, snippet) {
+                $('ul').first().append(
+                    $('<li>').append(
+                        $('<p>').append(
+                            $('<span>').text(`${id} - `),
+                            $('<b>').text(title)
+                        ),
+                        $('<p>').append(snippet)
+                    )
+                );
+            }
+
+            function queryWikipedia(search) {
+                $.ajax({
+                    url: 'https://www.mediawiki.org/w/api.php',
+                    type: 'GET',
+                    data: {
+                        "action": 'query',
+                        "list": 'search',
+                        "srsearch": search,
+                        "format": 'json'
+                    },
+                    dataType: "jsonp",
+                    success: function (res) {
+                        const { query } = res;
+                        query.search.forEach((a) => addNewArticle(
+                            a.pageid,
+                            a.title,
+                            a.snippet
+                        ))
+                    }
+                });
+            }
+
+        </script>
+        <meta charset="utf-8" />
+        <title>Task 7</title>
+
+    </head>
+
+    <body>
+
+    </body>
+
+
+</html>
