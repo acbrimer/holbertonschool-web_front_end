@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            window.onload = () => {
+                createFamilyTree();
+                replaceFamilyTree();
+            };
+            // rows for the table
+            let data = [
+                { firstName: 'Guillaume', lastName: 'Salva' },
+                { firstName: 'Paulette', lastName: 'Salva' },
+                { firstName: 'Antoine', lastName: 'Salva' },
+            ]
+
+            function createFamilyTree() {
+                let tbl = $('<table>').append(
+                    // create header
+                    $('<thead>').append(
+                        $('<tr>').append(
+                            $('<th>').text('Firstname'),
+                            $('<th>').text('Lastname')
+                        )
+                    ),
+                    $('<tbody>').append(
+                        // loop over data to create body rows
+                        data.map(row => $('<tr>').append(
+                            $('<td>').text(row.firstName),
+                            $('<td>').text(row.lastName),
+                        ))
+                    ));
+                $('body').append(tbl[0]);
+            }
+
+            function replaceFamilyTree() {
+                // rebuild the table with new data
+                data = [{ firstName: 'Gerad', lastName: 'Bonissa' }];
+                $('table').remove();
+                createFamilyTree();
+            }
+        </script>
+        <meta charset="utf-8" />
+        <title>Task 4</title>
+
+    </head>
+
+    <body>
+
+    </body>
+
+
+</html>
