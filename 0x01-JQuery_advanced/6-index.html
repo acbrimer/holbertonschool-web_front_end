@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            // global var to reference table
+            let tbody;
+
+            window.onload = () => {
+                createForm();
+                createFamilyTree();
+                data.forEach(row => addNewMember(row.firstName, row.lastName));
+            };
+            // rows for the table
+            let data = [
+                { firstName: 'Guillaume', lastName: 'Salva' },
+                { firstName: 'Arielle', lastName: 'Snizt' },
+                { firstName: 'Fanette', lastName: 'Snizt' },
+                { firstName: 'Gerard', lastName: 'Snizt' },
+                { firstName: 'Victor', lastName: 'Salva' },
+            ]
+
+            function createFamilyTree() {
+                tbody = $('<tbody>');
+                let tbl = $('<table>').append(
+                    // create header
+                    $('<thead>').append(
+                        $('<tr>').append(
+                            $('<th>').text('Firstname'),
+                            $('<th>').text('Lastname'),
+                            $('<th>')
+                        )
+                    ),
+                    tbody
+                );
+                $('body').append(tbl[0]);
+            }
+
+            function addNewMember(firstName, lastName, position) {
+                const tr = $('<tr>').append(
+                    $('<td>').text(firstName),
+                    $('<td>').text(lastName)
+                );
+                const handleRemove = () => tr.remove();
+                tr.append($('<td>')
+                    .text("(X)")
+                    .css("background-color", "orange")
+                    .click(handleRemove));
+                if (position == 'before') {
+                    console.log("before");
+                    tbody.prepend(tr);
+                }
+                else {
+                    console.log("after");
+                    tbody.append(tr);
+                }
+            }
+
+            function createForm() {
+                let form = $('<form>').append(
+                    $('<input name="firstName">'),
+                    $('<input name="lastName">'),
+                    $('<select name="position">').append(
+                        $('<option value="before">').text('Before'),
+                        $('<option value="after">').text('After')
+                    ),
+                    $('<input type="submit">')
+                );
+                $('body').append(form);
+                form.submit((e) => {
+                    // don't redirect on submit
+                    e.preventDefault();
+                    // get form vals as array [{name: '', value: ''}, ...]
+                    const vals = form.serializeArray();
+                    // transform array of values into object of {[name1]: value1, ...}
+                    const newMemb = vals.reduce(
+                        (acc, val) => ({ ...acc, [val.name]: val.value })
+                        , {});
+                    addNewMember(newMemb.firstName, newMemb.lastName, newMemb.position);
+                });
+            }
+
+        </script>
+        <meta charset="utf-8" />
+        <title>Task 6</title>
+
+    </head>
+
+    <body>
+
+    </body>
+
+
+</html>
