@@ -8,10 +8,10 @@
         <!-- renderWithStrings -->
         <script type="application/javascript">
             /** 
-             * renderWithStrings - Update DOM using Element.append(string)
+             * renderWithStrings - Update DOM using Element.innerHTML += string
              * @dataList: array of items to render
              * pros- easy to read/write-- you can just copy/paste HTML
-             * cons- (relatively) slow af
+             * cons- slow af for large updates
              * reference- https://developer.mozilla.org/en-US/docs/Web/API/Element/append
              */
             function renderWithStrings(dataList) {
@@ -43,7 +43,7 @@
         <!-- renderWithCreateElement -->
         <script type="application/javascript">
             /** 
-             * renderWithCreateElement - Update DOM using Element.append(Element)
+             * renderWithCreateElement - Update DOM using Element.appendChild(Element)
              * @dataList: array of items to render
              * pros- super fast!
              * cons- not fun to read/write, hard to think in DOM structure
@@ -96,6 +96,70 @@
                 dataList.forEach(data => addListItem(data))
             }
         </script>
+
+        <!-- renderWithJQStrings -->
+        <script type="application/javascript">
+            /** 
+             * renderWithJQStrings - Update DOM using JQuery.append(string)
+             * @dataList: array of items to render
+             * pros- tiny functions, follows HTML patterns, fast
+             * cons- still not React
+             */
+            function renderWithJQStrings(dataList) {
+
+                function buildList() {
+                    const elemStr = '<ul id="results"></ul>';
+                    // call JQuery.append(string)
+                    $('#results_wrapper').append(elemStr);
+                }
+
+                function addListItem(data) {
+                    const elemStr = `<li>
+                        <span><b>${data.title}</b> - ${data.id}</span>
+                        <span><p>${data.text}</p></span>
+                        </li>`;
+                    $('#results').append(elemStr);
+                }
+
+                // build list and render data
+                buildList();
+                dataList.forEach(data => addListItem(data))
+            }
+        </script>
+
+        <!-- renderWithJQElements -->
+        <script type="application/javascript">
+            /** 
+             * renderWithJQElements - Update DOM using JQuery.append(JQuery)
+             * @dataList: array of items to render
+             * pros- tiny functions, follows HTML patterns
+             * cons- slightly slower than renderWithJQStrings, but more inline
+             */
+            function renderWithJQElements(dataList) {
+
+                function buildList() {
+                    const elemStr = '<ul id="results"></ul>';
+                    // call JQuery.append(string)
+                    $('#results_wrapper').append(elemStr);
+                }
+
+                function addListItem(data) {
+                    const elem = $('<li>').append(
+                        $('<span>').append(
+                            $('<b>').text(data.title),
+                            ` - ${data.id}`
+                        ),
+                        $('<span>').append(
+                            $('<p>').text(data.text)));
+                    $('#results').append(elem);
+                }
+
+                // build list and render data
+                buildList();
+                dataList.forEach(data => addListItem(data))
+            }
+        </script>
+
         <!-- Add faker.js from CDN to gen fake data -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
 
@@ -121,6 +185,8 @@
                 // using jQuery for event handlers to save lines
                 $('#btn_withStrings').click(handleRenderWithStrings);
                 $('#btn_createElement').click(handleRenderWithCreateElement);
+                $('#btn_jqueryStrings').click(handleRenderWithJQString);
+                $('#btn_jqueryElements').click(handleRenderWithJQElements);
             };
 
             function handleRenderWithStrings() {
@@ -143,7 +209,27 @@
                 console.log(`renderWithCreateElement: ${n} items in ${timerEnd - timerStart}ms`);
             }
 
+            function handleRenderWithJQString() {
+                if (document.getElementById('results')) {
+                    document.getElementById('results').remove();
+                }
+                console.log("calling renderWithJQString...");
+                timerStart = performance.now();
+                renderWithJQStrings(dataList);
+                timerEnd = performance.now();
+                console.log(`renderWithJQString: ${n} items in ${timerEnd - timerStart}ms`);
+            }
 
+            function handleRenderWithJQElements() {
+                if (document.getElementById('results')) {
+                    document.getElementById('results').remove();
+                }
+                console.log("calling renderWithJQElements...");
+                timerStart = performance.now();
+                renderWithJQElements(dataList);
+                timerEnd = performance.now();
+                console.log(`renderWithJQElements: ${n} items in ${timerEnd - timerStart}ms`);
+            }
 
 
         </script>
@@ -156,6 +242,8 @@
     <body>
         <button id="btn_withStrings">Render with Strings</button>
         <button id="btn_createElement">Render with Create Element</button>
+        <button id="btn_jqueryStrings">Render with JQuery (strings)</button>
+        <button id="btn_jqueryElements">Render with JQuery (JQuery Elements)</button>
 
         <div id="results_wrapper">
 
