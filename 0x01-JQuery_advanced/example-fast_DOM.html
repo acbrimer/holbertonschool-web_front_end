@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+        <!-- renderWithStrings -->
+        <script type="application/javascript">
+            /** 
+             * renderWithStrings - Update DOM using Element.append(string)
+             * @dataList: array of items to render
+             * pros- easy to read/write-- you can just copy/paste HTML
+             * cons- (relatively) slow af
+             * reference- https://developer.mozilla.org/en-US/docs/Web/API/Element/append
+             */
+            function renderWithStrings(dataList) {
+
+                function buildList() {
+                    // setting innerHTML from string
+                    const elemStr = '<ul id="results"></ul>';
+                    document.getElementById('results_wrapper').innerHTML = elemStr;
+                }
+
+                function addListItem(data) {
+                    // convert structured `data` JSON to HTML string
+                    const elemStr = `<li>
+                        <span><b>${data.title}</b> - ${data.id}</span>
+                        <span><p>${data.text}</p></span>
+                        </li>`;
+                    // get DOM Element <ul> to append new `elemStr`
+                    const resultsList = document.getElementById('results');
+                    resultsList.innerHTML += elemStr;
+                    // expensive function, but pretty, clean code
+                    // has to parse HTML string before calling [browser magic] to render new DOM
+                }
+
+                // build list and render data
+                buildList();
+                dataList.forEach(data => addListItem(data))
+            }
+        </script>
+        <!-- renderWithCreateElement -->
+        <script type="application/javascript">
+            /** 
+             * renderWithCreateElement - Update DOM using Element.append(Element)
+             * @dataList: array of items to render
+             * pros- super fast!
+             * cons- not fun to read/write, hard to think in DOM structure
+             * reference- https://developer.mozilla.org/en-US/docs/Web/API/Element/append
+             */
+            function renderWithCreateElement(dataList) {
+
+                function buildList() {
+                    // create element & set ID (2 lines)
+                    const elem = document.createElement('ul');
+                    elem.id = 'results';
+                    // call document.body.appendChild(elem:Element)
+                    document.getElementById('results_wrapper').appendChild(elem);
+                }
+
+                function addListItem(data) {
+                    // grab props from `data`
+                    const { title, id, text } = data;
+
+                    // create HTML Elements for new <li> & its contents
+                    const LI = document.createElement('li');
+                    const SPAN_title = document.createElement('span');
+                    const B_title = document.createElement('b');
+                    const SPAN_body = document.createElement('span');
+                    const P_body = document.createElement('p');
+
+                    // build new piece of DOM from HTML Elements
+                    // make SPAN_title = `<span><B_title>({id})</span>`
+                    B_title.innerText = title;
+                    SPAN_title.appendChild(B_title);
+                    SPAN_title.append(` - ${data.id}`);
+
+                    // make SPAN_body = `<span><p>{text}</p></span>`
+                    P_body.innerText = text;
+                    SPAN_body.appendChild(P_body);
+
+                    // make LI = `<li><SPAN_title><SPAN_body></li>`
+                    LI.appendChild(SPAN_title);
+                    LI.appendChild(SPAN_body);
+
+                    // finally, we can appendChild new `LI` to ul#results
+                    document.getElementById('results').appendChild(LI);
+                    // fast AF function, horrible to write and maintain
+                    // everything stays structured-- no unnecessary stringify-ing/parsing
+                    // directly calls to [browser magic] from JS to render new DOM
+                }
+
+                // build list and render data
+                buildList();
+                dataList.forEach(data => addListItem(data))
+            }
+        </script>
+        <!-- Add faker.js from CDN to gen fake data -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+
+        <script type="application/javascript">
+
+            let n = 1000;
+            let dataList;
+            let timerStart;
+            let timerEnd;
+
+            function genDataList(n) {
+                return [...Array(n).keys()].map((i) => ({
+                    id: i,
+                    title: faker.lorem.sentence(),
+                    text: faker.lorem.paragraph()
+                }))
+            }
+
+            window.onload = () => {
+                dataList = genDataList(n);
+                // console.log("dataList", dataList);
+
+                // using jQuery for event handlers to save lines
+                $('#btn_withStrings').click(handleRenderWithStrings);
+                $('#btn_createElement').click(handleRenderWithCreateElement);
+            };
+
+            function handleRenderWithStrings() {
+                console.log("calling renderWithStrings...");
+                timerStart = performance.now();
+                renderWithStrings(dataList);
+                timerEnd = performance.now();
+                console.log(`renderWithStrings: ${n} items in ${timerEnd - timerStart}ms`);
+            }
+
+            function handleRenderWithCreateElement() {
+                // remove ul#results if exists
+                if (document.getElementById('results')) {
+                    document.getElementById('results').remove();
+                }
+                console.log("calling renderWithCreateElement...");
+                timerStart = performance.now();
+                renderWithCreateElement(dataList);
+                timerEnd = performance.now();
+                console.log(`renderWithCreateElement: ${n} items in ${timerEnd - timerStart}ms`);
+            }
+
+
+
+
+        </script>
+
+        <meta charset="utf-8" />
+        <title>Example 1</title>
+
+    </head>
+
+    <body>
+        <button id="btn_withStrings">Render with Strings</button>
+        <button id="btn_createElement">Render with Create Element</button>
+
+        <div id="results_wrapper">
+
+        </div>
+    </body>
+
+
+</html>
