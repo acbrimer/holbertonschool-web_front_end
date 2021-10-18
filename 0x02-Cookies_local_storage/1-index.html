@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            .container {
+                padding: 10px 20px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .w40 {
+                width: 60%;
+            }
+
+            .w20 {
+                width: 20%;
+            }
+
+            input {
+                margin: 8px 8px;
+            }
+        </style>
+
+        <title>0-index</title>
+    </head>
+
+    <body>
+        <form id="loginForm" class="container">
+            <div class="row">
+                <h1>Login to the website</h1>
+            </div>
+            <div class="row">
+                <input class="w40" type="text" id="firstname" placeholder="Firstname" />
+                <input class="w40" type="email" id="email" placeholder="Email" />
+                <button id="loginBtn" class="w20" role="submit">Log me in</button>
+            </div>
+            <div class="row">
+                <h1>Cookies</h1>
+            </div>
+            <div class="row">
+                <button id="showCookiesBtn">Show the cookies</button>
+            </div>
+            <div class="row" id="cookiesText">
+
+            </div>
+        </form>
+    </body>
+    <script type="text/javascript">
+        function setCookies(e) {
+            e.preventDefault();
+            const d = new Date();
+            d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
+            Object.entries(
+                {
+                    firstname: document.getElementById("firstname").value,
+                    email: document.getElementById('email').value
+                }
+            ).forEach((c) => document.cookie = `${c[0]}=${c[1] || ''};expires=${d.toUTCString()};path=/`)
+        }
+        function showCookies(e) {
+            e.preventDefault();
+            const cookiesText = document.getElementById('cookiesText');
+            cookiesText.innerHTML = '';
+            const p = document.createElement('p');
+            p.innerHTML = `Cookies: ${document.cookie.toString()}`
+            cookiesText.appendChild(p);
+        }
+
+        document.addEventListener('DOMContentLoaded', (() => {
+            document.getElementById('loginBtn').addEventListener('click', setCookies);
+            document.getElementById('showCookiesBtn').addEventListener('click', showCookies);
+        }));
+    </script>
+
+</html>
